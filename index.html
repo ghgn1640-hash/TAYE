@@ -1,0 +1,518 @@
+# TAYE <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NINJA TỔNG BỘ CONTROL SYSTEM v2026</title>
+    <style>
+        /* ========================================================================= */
+        /* CẤU HÌNH GIAO DIỆN DI ĐỘNG TỐI ƯU KHÔNG GIAN (MOBILE RESPONSIVE CSS)       */
+        /* ========================================================================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #08080a;
+            color: #e5e5e7;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .system-wrapper {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            padding-bottom: 30px;
+        }
+
+        .main-header {
+            text-align: center;
+            padding: 15px 0;
+            margin-bottom: 15px;
+        }
+
+        .main-header h1 {
+            color: #ff0055;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 12px rgba(255, 0, 85, 0.4);
+        }
+
+        .main-header p {
+            font-size: 11px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .panel-box {
+            background: #111115;
+            border: 1px solid #1f1f25;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .panel-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ff0055;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #1f1f25;
+            text-transform: uppercase;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: #8a8a93;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            background: #191922;
+            border: 1px solid #2c2c35;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #0077ff;
+            background: #1c1c27;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #ff0055;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 0, 85, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        button:active {
+            transform: scale(0.98);
+            background: #cc0044;
+        }
+
+        .btn-blue {
+            background: #0077ff;
+            box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
+        }
+
+        .btn-blue:active {
+            background: #0055cc;
+        }
+
+        .btn-green {
+            background: #00b050;
+            box-shadow: 0 4px 12px rgba(0, 176, 80, 0.3);
+        }
+
+        .btn-green:active {
+            background: #008038;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #161620;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border: 1px dashed #2c2c35;
+        }
+
+        .badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge-red { background: #ff0055; color: #fff; }
+        .badge-green { background: #00ff88; color: #000; }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .display-log {
+            margin-top: 12px;
+            background: #09090d;
+            border: 1px solid #22222b;
+            border-radius: 6px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #ffcc00;
+            max-height: 150px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .shop-list-item {
+            background: #181822;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+            border-left: 3px solid #0077ff;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="system-wrapper">
+        <div class="main-header">
+            <h1>Ninja Hub Mobile</h1>
+            <p>HỆ THỐNG QUẢN TRỊ TỰ ĐỘNG KHÉP KÍN TRÊN ĐIỆN THOẠI</p>
+        </div>
+
+        <div id="loginBlock" class="panel-box">
+            <div class="panel-title">Xác thực quyền hạn</div>
+            <div class="input-group">
+                <label>TÊN TÀI KHOẢN ANH DANH</label>
+                <input type="text" id="userInput" placeholder="Nhập chuỗi nhận diện ẩn (ít)...">
+            </div>
+            <div class="input-group">
+                <label>MẬT MÃ TRUY CẬP TRỰC TIẾP</label>
+                <input type="password" id="passInput" placeholder="Nhập mật khẩu tối cao tại nhà...">
+            </div>
+            <button type="button" onclick="executeAuthentication()">KÍCH HOẠT HỆ THỐNG</button>
+        </div>
+
+        <div id="dashboardBlock" class="panel-box hidden">
+            <div class="panel-title">Bản Ít - Trung Tâm Quản Lý</div>
+            
+            <div class="status-row">
+                <div>Quyền: <span class="badge badge-red">CHỦ TỊCH</span></div>
+                <div>Bot Tổng: <span class="badge badge-green" id="botStatusLabel">CHẠY NGẦM</span></div>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <div style="font-size: 13px; font-weight: 700; color: #0077ff; margin-bottom: 8px;">ĐẺ TRANG WEB CON NGOÀI ĐỜI</div>
+                <div class="input-group">
+                    <label>TÊN THƯƠNG HIỆU SHOP</label>
+                    <input type="text" id="newShopName" placeholder="Ví dụ: Shop Anh Dau Hu Non">
+                </div>
+                <div class="input-group">
+                    <label>ĐUÔI TÊN MIỀN HỆ THỐNG</label>
+                    <select id="newShopDomain">
+                        <option value=".com">Đuôi Quốc Tế (.com)</option>
+                        <option value=".net">Đuôi Mạng Lưới (.net)</option>
+                        <option value=".vn">Đuôi Việt Nam (.vn)</option>
+                        <option value=".shop">Đuôi Bán Hàng (.shop)</option>
+                        <option value=".gg">Đuôi Trò Chơi (.gg)</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-blue" onclick="processCreateWebCon()">TIẾN HÀNH TẠO WEB CON</button>
+            </div>
+
+            <div id="webConResult" class="hidden">
+                <div class="display-log" id="webLogData"></div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #1f1f25; margin: 18px 0;">
+
+            <div>
+                <div style="font-size: 13px; font-weight: 700; color: #00b050; margin-bottom: 8px;">ĐIỀU PHỐI SỐ DƯ TÀI KHOẢN</div>
+                <div class="input-group">
+                    <label>MÃ ĐỊNH DANH TÀI KHOẢN (ID)</label>
+                    <input type="text" id="targetUserId" placeholder="Nhập ID khách hàng hoặc chủ shop con...">
+                </div>
+                <div class="input-group">
+                    <label>SỐ TIỀN MUỐN THAY ĐỔI (VND)</label>
+                    <input type="number" id="cashAmount" placeholder="Ví dụ: 100000">
+                </div>
+                <button type="button" class="btn-green" onclick="processAdminModifyCash()">CỘNG TIỀN HỆ THỐNG</button>
+            </div>
+
+            <div style="margin-top: 18px;">
+                <div style="font-size: 12px; font-weight: 700; color: #8a8a93; text-transform: uppercase;">Danh Sách Shop Con Đã Đẻ (Thời Gian Thực)</div>
+                <div id="shopContainerArea">
+                    <div style="text-align: center; color: #444; padding: 15px; font-size: 12px;">Chưa có shop con nào được tạo trên điện thoại này.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cấu hình mã khóa ẩn của hệ thống điều khiển trung tâm
+        const CORE_SECURITY_CONFIG = {
+            SECRET_USERNAME_KEY: "ít",
+            MASTER_PASSWORD_PLAIN: "NinjaHub_Master_2026_###",
+            DEFAULT_PROFIT_MARGIN: 6000,
+            DEFAULT_SERVER_PROXY_PREFIX: "103.249.201."
+        };
+
+        // Kho dữ liệu lưu trữ tạm thời mô phỏng cơ sở dữ liệu ngầm (RAM Database)
+        let VirtualSystemDatabase = {
+            createdShops: {},
+            userBalances: {},
+            systemLogHistory: [],
+            totalGeneratedShops: 0
+        };
+
+        /**
+         * Hàm lưu vết lịch sử vận hành của hệ thống
+         */
+        function writeSystemAuditLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const formattedMessage = `[${timestamp}] ${message}`;
+            VirtualSystemDatabase.systemLogHistory.push(formattedMessage);
+            console.log(formattedMessage);
+        }
+
+        /**
+         * Thuật toán lọc sạch ký tự trống và chuyển đổi chuỗi chữ hoa sang chữ thường để làm link
+         */
+        function cleanStringForUrlBinding(inputString) {
+            if (!inputString) return "";
+            
+            // Chuyển đổi sang chữ thường
+            let result = inputString.toLowerCase();
+            
+            // Lọc bỏ toàn bộ dấu tiếng Việt cơ bản để link không lỗi
+            result = result.replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, "a");
+            result = result.replace(/[èéẹẻẽêềếệểễ]/g, "e");
+            result = result.replace(/[ìíịỉĩ]/g, "i");
+            result = result.replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, "o");
+            result = result.replace(/[ùúụủũưừứựửữ]/g, "u");
+            result = result.replace(/[ỳýỵỷỹ]/g, "y");
+            result = result.replace(/đ/g, "d");
+            
+            // Xóa toàn bộ các ký tự đặc biệt phá vỡ link cấu trúc dữ liệu
+            result = result.replace(/[^a-z0-9\s]/g, "");
+            
+            // Thay thế khoảng trắng liền nhau thành chuỗi rỗng để nối chữ liền mạch
+            result = result.replace(/\s+/g, "");
+            
+            return result;
+        }
+
+        /**
+         * Tính năng 1: Hàm kích hoạt đăng nhập nhận diện "ít" hoặc mật khẩu nhập tay
+         */
+        function executeAuthentication() {
+            const inputUser = document.getElementById('userInput').value.trim();
+            const inputPass = document.getElementById('passInput').value;
+
+            writeSystemAuditLog("Bắt đầu quét thông tin cổng bảo mật di động...");
+
+            // Kiểm tra điều kiện logic cốt lõi
+            const isUserMatch = (inputUser === CORE_SECURITY_CONFIG.SECRET_USERNAME_KEY);
+            const isPassMatch = (inputPass === CORE_SECURITY_CONFIG.MASTER_PASSWORD_PLAIN);
+
+            if (isUserMatch || isPassMatch) {
+                writeSystemAuditLog("Xác thực thành công! Quyền quản trị tối cao được chấp thuận.");
+                
+                // Hiệu ứng chuyển màn hình lập tức trên trình duyệt điện thoại
+                document.getElementById('loginBlock').classList.add('hidden');
+                document.getElementById('dashboardBlock').classList.remove('hidden');
+                
+                writeSystemAuditLog("Đã kích hoạt giao diện Bản Ít siêu gọn trên thiết bị di động.");
+            } else {
+                writeSystemAuditLog("Cảnh báo: Phát hiện đăng nhập không hợp lệ!");
+                alert("Mật mã hoặc tài khoản ẩn danh không khớp với Tổng Bộ!");
+            }
+        }
+
+        /**
+         * Tính năng 2: Hàm xử lý đẻ trang web con hoàn chỉnh khi bấm nút trên điện thoại
+         */
+        function processCreateWebCon() {
+            const rawShopName = document.getElementById('newShopName').value.trim();
+            const selectedDomain = document.getElementById('newShopDomain').value;
+
+            if (!rawShopName) {
+                alert("Ninja ơi, vui lòng điền tên thương hiệu của shop con!");
+                return;
+            }
+
+            writeSystemAuditLog(`Tiếp nhận yêu cầu đẻ trang web con: "${rawShopName}"`);
+
+            // Xử lý làm sạch tên miền
+            const cleanDomainName = cleanStringForUrlBinding(rawShopName);
+            const finalFullDomain = cleanDomainName + selectedDomain;
+
+            // Kiểm tra trùng lặp dữ liệu trong hệ thống
+            if (VirtualSystemDatabase.createdShops[finalFullDomain]) {
+                alert("Tên miền shop này đã tồn tại trong Tổng Bộ!");
+                return;
+            }
+
+            // Tạo các thông số mạng ngầm ngẫu nhiên cho shop con để đồng bộ
+            const randomHostSuffix = Math.floor(Math.random() * 254) + 1;
+            const assignedProxyIp = CORE_SECURITY_CONFIG.DEFAULT_SERVER_PROXY_PREFIX + randomHostSuffix;
+            
+            // Tăng biến đếm tổng số lượng shop
+            VirtualSystemDatabase.totalGeneratedShops += 1;
+            const currentShopId = "SHOP_" + String(VirtualSystemDatabase.totalGeneratedShops).padStart(4, '0');
+
+            // Đóng gói dữ liệu shop con mới lắp ráp vào Database
+            VirtualSystemDatabase.createdShops[finalFullDomain] = {
+                shopId: currentShopId,
+                brandName: rawShopName,
+                domain: finalFullDomain,
+                proxyIp: assignedProxyIp,
+                status: "ACTIVE_RUNNING",
+                totalSales: 0,
+                creationTime: new Date().toLocaleTimeString()
+            };
+
+            writeSystemAuditLog(`Đã tạo thành công cấu hình cho ${currentShopId}`);
+            writeSystemAuditLog(`Địa chỉ URL phân phối: http://${finalFullDomain}`);
+
+            // Cập nhật kết quả hiển thị ra màn hình điện thoại
+            const resultBox = document.getElementById('webConResult');
+            const logDataDiv = document.getElementById('webLogData');
+            
+            resultBox.classList.remove('hidden');
+            logDataDiv.innerHTML = 
+                `🎉 KÍCH HOẠT TRANG WEB THÀNH CÔNG!<br>` +
+                `----------------------------------------<br>` +
+                `• Mã Quản Lý: ${currentShopId}<br>` +
+                `• Tên Thương Hiệu: ${rawShopName}<br>` +
+                `• Đường Dẫn Web: <span style="color:#00ff88; font-weight:bold;">${finalFullDomain}</span><br>` +
+                `• Địa Chỉ IP Riêng: ${assignedProxyIp}<br>` +
+                `• Autobot Săn Acc: KHÉP KÍN 24/7<br>` +
+                `• Đồng Bộ Kho Đậu Hũ: HOÀN TẤT`;
+
+            // Làm mới giao diện danh sách hiển thị
+            renderShopListToScreen();
+            
+            // Xóa dữ liệu cũ ở ô nhập để sẵn sàng tạo tiếp web khác
+            document.getElementById('newShopName').value = "";
+        }
+
+        /**
+         * Tính năng 3: Hàm Admin can thiệp dòng tiền cộng tiền thủ công vào ví tài khoản
+         */
+        function processAdminModifyCash() {
+            const userId = document.getElementById('targetUserId').value.trim();
+            const rawAmount = document.getElementById('cashAmount').value;
+
+            if (!userId) {
+                alert("Vui lòng điền mã định danh tài khoản cần cộng tiền!");
+                return;
+            }
+            if (!rawAmount || isNaN(rawAmount) || Number(rawAmount) <= 0) {
+                alert("Số tiền nhập vào không hợp lệ!");
+                return;
+            }
+
+            const cleanAmount = Number(rawAmount);
+            
+            // Khởi tạo tài khoản ví nếu chưa từng tồn tại trong hệ thống
+            if (!VirtualSystemDatabase.userBalances[userId]) {
+                VirtualSystemDatabase.userBalances[userId] = 0;
+            }
+
+            // Tiến hành cộng dồn tiền
+            VirtualSystemDatabase.userBalances[userId] += cleanAmount;
+            
+            writeSystemAuditLog(`Lệnh Admin: Cộng +${cleanAmount} VND vào tài khoản ID: [${userId}]`);
+            alert(`Đã hoàn tất lệnh cộng tiền!\nSố dư mới của [${userId}] là: ${VirtualSystemDatabase.userBalances[userId]} VND`);
+
+            // Xóa dữ liệu ô nhập sau khi hoàn thành tác vụ
+            document.getElementById('targetUserId').value = "";
+            document.getElementById('cashAmount').value = "";
+        }
+
+        /**
+         * Hàm kết xuất danh sách toàn bộ các shop con ra màn hình di động
+         */
+        function renderShopListToScreen() {
+            const container = document.getElementById('shopContainerArea');
+            const shopKeys = Object.keys(VirtualSystemDatabase.createdShops);
+
+            if (shopKeys.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: #444; padding: 15px; font-size: 12px;">Chưa có shop con nào được tạo.</div>`;
+                return;
+            }
+
+            let htmlRenderContent = "";
+            
+            // Duyệt qua từng shop trong database để dựng giao diện danh sách
+            for (let i = 0; i < shopKeys.length; i++) {
+                const currentKey = shopKeys[i];
+                const shopInfo = VirtualSystemDatabase.createdShops[currentKey];
+                
+                htmlRenderContent += `
+                    <div class="shop-list-item">
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; color: #fff; margin-bottom: 4px;">
+                            <span>${shopInfo.shopId} - ${shopInfo.brandName}</span>
+                            <span style="color: #00ff88;">ONLINE</span>
+                        </div>
+                        <div style="color: #8a8a93; font-size: 11px;">Link: <span style="color: #ffcc00;">${shopInfo.domain}</span></div>
+                        <div style="color: #666; font-size: 11px; display: flex; justify-content: space-between; margin-top: 2px;">
+                            <span>IP: ${shopInfo.proxyIp}</span>
+                            <span>Tạo lúc: ${shopInfo.creationTime}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = htmlRenderContent;
+        }
+
+        /**
+         * Hàm giả lập hệ thống nhận diện giao dịch ngầm tự động săn acc từ khách hàng đổ về
+         */
+        function runSimulationBackgroundCoreLoop() {
+            setInterval(() => {
+                const shopKeys = Object.keys(VirtualSystemDatabase.createdShops);
+                if (shopKeys.length === 0) return;
+
+                // Chọn ngẫu nhiên một shop con bất kỳ để giả lập có người mua acc Blox Fruit
+                const randomShopIndex = Math.floor(Math.random() * shopKeys.length);
+                const selectedShopKey = shopKeys[randomShopIndex];
+                const targetShop = VirtualSystemDatabase.createdShops[selectedShopKey];
+
+                // Giả lập tiền lời đổ về ví admin tự động
+                targetShop.totalSales += CORE_SECURITY_CONFIG.DEFAULT_PROFIT_MARGIN;
+                
+                writeSystemAuditLog(`[AUTOBOT NGẦM] Shop ${targetShop.shopId} vừa mua hộ 1 Acc Blox Fruit giá gốc thành công.`);
+                writeSystemAuditLog(`[DÒNG TIỀN] Thu về +${CORE_SECURITY_CONFIG.DEFAULT_PROFIT_MARGIN} VND tiền lời đút túi cho Ninja.`);
+            }, 15000); // Cứ mỗi 15 giây hệ thống ngầm sẽ quét kiểm tra luồng một lần
+        }
+
+        // Kích hoạt vòng lặp chạy ngầm của hệ thống ngay khi trang web sẵn sàng
+        window.onload = function() {
+            writeSystemAuditLog("Khởi tạo lõi nhân hệ thống điều khiển thành công.");
+            writeSystemAuditLog("Toàn bộ cấu trúc bảo mật đa luồng đã sẵn sàng hoạt động trên di động.");
+            runSimulationBackgroundCoreLoop();
+        };
+    </script>
+</body>
+</html>
